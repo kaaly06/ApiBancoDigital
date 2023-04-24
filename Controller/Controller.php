@@ -51,7 +51,7 @@ abstract class Controller
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         header("Pragma: public");
          
-        exit(json_encode(exception));
+        exit(json_encode($exception));
       }
 
       protected static function isGet()

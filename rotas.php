@@ -9,9 +9,9 @@ switch ($url)
     //rota Correntista
     /**
      * Metódo: Post
-     * http://10.0.2.2/correntista/save
+     * http://10.0.2.2/correntista/salvar
      */
     case '/correntista/save':
-        CorrentistaController::CorrentistaSave();
+        CorrentistaController::CorrentistaSalvar();
     break;
 }

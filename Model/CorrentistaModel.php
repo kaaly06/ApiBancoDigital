@@ -1,7 +1,8 @@
 <?php
 
 namespace ApiBancoDigital\Model;
-use Api\DAO\CorrentistaDAO;
+
+use ApiBancoDigital\DAO\CorrentistaDAO;
 
 class CorrentistaModel extends Model 
 {
@@ -13,5 +14,15 @@ class CorrentistaModel extends Model
         (new CorrentistaDAO())->insert($this);
         else
         (new CorrentistaDAO())->update($this);
+    }
+    
+    public function getAllRows()
+    {
+        $this->rows = (new CorrentistaDAO())->select(); 
+    }
+
+    public function delete()
+    {
+        (new CorrentistaDAO())->delete($this->id);
     }
 }
