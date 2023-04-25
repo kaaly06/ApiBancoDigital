@@ -2,11 +2,11 @@
 
 use ApiBancoDigital\Controller\CorrentistaController;
 
-$url = parse_url($_SERVER[REQUEST_URI], PHP_URL_PATH);
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 switch ($url)
 {
-    //rota Correntista
+    //rotas Correntista
     /**
      * Metódo: Post
      * http://10.0.2.2/correntista/salvar
@@ -14,4 +14,11 @@ switch ($url)
     case '/correntista/save':
         CorrentistaController::CorrentistaSalvar();
     break;
+
+    //rotas Conta
+    case '/conta/save':
+        ContaController::ContaSalvar();
+    break;
+    //rotas Chave Pix
+    //rotas Transação
 }

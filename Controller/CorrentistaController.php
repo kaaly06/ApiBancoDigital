@@ -19,7 +19,7 @@ class CorrentistaController extends Controller
         $model->cpf = $json_obj->CPF;
         $model->senha = $json_obj->Senha;
 
-        $model->save();
+        $model->CorrentistaSalvar();
       }
       catch (Exception $e) 
       {

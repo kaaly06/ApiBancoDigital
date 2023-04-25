@@ -1,6 +1,6 @@
 <?php
 
-namespace ApiBancoDigitalDAO\Controller;
+namespace ApiBancoDigital\Controller;
 use Exception;
 
 abstract class Controller
@@ -85,10 +85,4 @@ abstract class Controller
         else
           throw new Exception("variável $var_name não identificada.");
       }
-
-
-
-
-
-
 }

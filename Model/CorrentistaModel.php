@@ -8,7 +8,7 @@ class CorrentistaModel extends Model
 {
     public $id, $nome, $cpf, $senha;
 
-    public function CorrentistaSave() 
+    public function CorrentistaSalvar() 
     {
         if($this->id == null)
         (new CorrentistaDAO())->insert($this);

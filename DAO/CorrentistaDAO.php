@@ -11,16 +11,16 @@ class CorrentistaDAO extends DAO
         parent::__construct();
     }
 
-    public function select()
+    public function select() : array
     {
         $sql = "SELECT * FROM correntista";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute();
 
-       return $stmt->fetchAll(DAO::FETCH_CLASS);
+       return $stmt->fetchAll(DAO::FETCH_CLASS, "ApiBancoDigital\Model\CorrentistaModel");
     }
-
+    
     public function insert(CorrentistaModel $m) : bool
     {
         $sql = "INSERT INTO correntista (nome, CPF, data_nasc) VALUES (?, ?, ?)";
