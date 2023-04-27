@@ -26,4 +26,18 @@ class CorrentistaController extends Controller
         parent::getExceptionAsJSON($e);
       }
     } 
+
+    public static function deletar(): void
+    {
+      try
+      {
+        $id = json_decode(file_get_contents('php://input'));
+
+        (new CorrentistaModel())->delete( (int) $id);
+      }catch (Exception $e)
+      {
+        parent::LogError($e);
+        parent::getExceptionASJSON($e);
+      }
+    }
 }

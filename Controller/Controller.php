@@ -5,6 +5,12 @@ use Exception;
 
 abstract class Controller
 {
+
+    protected static function Logerror(Exception $e)
+    {
+      $f = fopen("erros.txt", "w");
+      fwrite($f, $e->getTraceAsString());
+    }
      /**
       * converte um dado para Json
       */

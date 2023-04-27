@@ -19,11 +19,26 @@ class ContaController extends Controller
           $model->tipo = $json_obj->Tipo;
           $model->senha = $json_obj->Senha;
   
-          $model->ContaSalvar();
+          parent::getResponseAsJSON($model->ContaSalvar());
         }
         catch (Exception $e) 
         {
+          parent::Logerror($e);
           parent::getExceptionAsJSON($e);
         }
+     }
+
+     public static function deletar(): void
+     {
+      try
+      {
+        $id = json_decode(file_get_contents('php://input'));
+
+        (new ContaModel())->delete( (int) $id);
+      }catch (Exception $e)
+      {
+        parent::LogError($e);
+        parent::getExceptionASJSON($e);
+      }
      }
 }

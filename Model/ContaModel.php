@@ -17,13 +17,13 @@ class ContaModel extends Model
         (new ContaDAO())->update($this);
     }
 
-    public function getAllRows()
+    public function getAllRows(string $query = null)
     {
         $this->rows = (new ContaDAO())->select(); 
     }
 
     public function delete()
     {
-       (new CorrentistaDAO())->delete($this->id);
+       (new ContaDAO())->delete($this->id);
     }
 }

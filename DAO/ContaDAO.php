@@ -12,17 +12,17 @@ class ContaDAO extends DAO
      parent::__construct();
   }
   
-  public function select()
+  public function select() : array
   {
      $sql = "SELECT * FROM conta";
 
      $stmt = $this->conexao->prepare($sql);
      $stmt->execute();
 
-     return $stmt->fetchAll(DAO::FETCH_CLASS);
+     return $stmt->fetchAll(DAO::FETCH_CLASS, "ApiBancoDigital\Model\ContaModel");
   }
 
-  public function insert(ContaModel $m) : bool
+  public function insert(ContaModel $m) : ContaModel
   {
      $sql = "INSERT INTO conta (numero, tipo, senha) VALUES (?, ?, ?)";
 
@@ -30,9 +30,9 @@ class ContaDAO extends DAO
      $stmt->bindValue(1, $m->numero);
      $stmt->bindValue(2, $m->tipo);
      $stmt->bindValue(3, $m->senha);
-     $stmt->bindValue(4, $m->id);
+     $stmt->execute();
 
-     return $stmt->execute();
+     return $m;
 
   }
 
@@ -50,11 +50,12 @@ class ContaDAO extends DAO
 
   }
 
-  public function delete()
+  public function delete(int $id) : bool
   {
+     $sql = "DELETE FROM conta WHERE id = ?";
 
+     $stmt = $this->conexao->prepare($sql);
+     $stmt->bindValue(1, $id);
+     return $stmt->execute();
   }
-
-
-
 }

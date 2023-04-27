@@ -6,5 +6,6 @@ use Exception;
 
 abstract class Model 
 {
-    public $rows;
+    // amarzena o array retornado da DAO com a listagem do(a) correntista, conta...
+    public $rows = [];
 }

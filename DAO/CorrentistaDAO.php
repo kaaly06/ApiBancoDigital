@@ -21,7 +21,7 @@ class CorrentistaDAO extends DAO
        return $stmt->fetchAll(DAO::FETCH_CLASS, "ApiBancoDigital\Model\CorrentistaModel");
     }
     
-    public function insert(CorrentistaModel $m) : bool
+    public function insert(CorrentistaModel $m) : CorrentistaModel
     {
         $sql = "INSERT INTO correntista (nome, CPF, data_nasc) VALUES (?, ?, ?)";
 
@@ -29,12 +29,14 @@ class CorrentistaDAO extends DAO
         $stmt->bindValue(1, $m->nome);
         $stmt->bindValue(2, $m->cpf);
         $stmt->bindValue(3, $m->senha);
-        $stmt->bindValue(4, $m->id);
+        $stmt->execute();
 
-        return $stmt->execute();
+        $m->id = $this->conexao->lastInsertId(); //resgata a ultima inserção do banco
+
+        return $m;
     }
 
-    public function update(CorrentistaModel $m)
+    public function update(CorrentistaModel $m) : bool
     {
         $sql = "UPDATE correntista SET nome=?, cpf=? senha=? WHERE id=?";
 
