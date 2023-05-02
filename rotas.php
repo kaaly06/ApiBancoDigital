@@ -1,6 +1,8 @@
 <?php
 
+use ApiBancoDigital\Controller\ContaController;
 use ApiBancoDigital\Controller\CorrentistaController;
+use ApiBancoDigital\Controller\TransacaoController;
 
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -15,11 +17,19 @@ switch ($url)
         CorrentistaController::CorrentistaSalvar();
     break;
 
+    case '/correntista/save':
+        CorrentistaController::CorrentistaEntrar();
+    break;
+
     //rotas Conta
     case '/conta/save':
-        ContaController::ContaSalvar();
+       ContaController::ContaSalvar();
     break;
     
-    //rotas Chave Pix
+    //rotas Chave Pix enviar e receber
+    
     //rotas Transação
+    case '/transacao/save':
+        TransacaoController::TransacaoSalvar();
+    break;
 }

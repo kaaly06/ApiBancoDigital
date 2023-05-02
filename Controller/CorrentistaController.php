@@ -23,11 +23,17 @@ class CorrentistaController extends Controller
       }
       catch (Exception $e) 
       {
+        parent::LogError($e);
         parent::getExceptionAsJSON($e);
       }
     } 
 
-    public static function deletar(): void
+    public static function CorrentistaEntrar() : void
+    {
+        
+    }
+
+    public static function deletar() : void
     {
       try
       {
