@@ -15,7 +15,7 @@ class CorrentistaController extends Controller
 
         $model = new CorrentistaModel();
         $model->id = $json_obj->Id;
-        $model->nome = $json_obj->Usuario;
+        $model->usuario = $json_obj->Usuario;
         $model->cpf = $json_obj->CPF;
         $model->senha = $json_obj->Senha;
 
@@ -27,11 +27,10 @@ class CorrentistaController extends Controller
         parent::getExceptionAsJSON($e);
       }
     } 
-
    
     public static function CorrentistaEntrar() : void
     {
-        $model = new LoginModel();
+        $model = new CorrentistaModel();
 
         $model->usuario = $_POST['usuario'];
         $model->senha = $_POST['senha'];

@@ -20,6 +20,18 @@ class CorrentistaDAO extends DAO
 
        return $stmt->fetchAll(DAO::FETCH_CLASS, "ApiBancoDigital\Model\CorrentistaModel");
     }
+
+    public function selectByUsuarioAndSenha($usuario, $senha)
+    {
+        $sql = "SELECT usuario, senha FROM correntista WHERE usuario=? AND senha= sha1(?)";
+
+        $stmt = $this->conexao->prepare($sql);
+        $stmt->bindValue(1, $usuario);
+        $stmt->bindValue(2, $senha);
+        $stmt->execute();
+
+        return $stmt->fetchObject("App\Model\CorrentistaModel");
+    }
     
     public function insert(CorrentistaModel $m) : CorrentistaModel
     {
