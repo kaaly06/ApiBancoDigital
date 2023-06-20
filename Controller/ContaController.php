@@ -23,7 +23,7 @@ class ContaController extends Controller
         }
         catch (Exception $e) 
         {
-          parent::Logerror($e);
+        
           parent::getExceptionAsJSON($e);
         }
      }
@@ -37,8 +37,23 @@ class ContaController extends Controller
         (new ContaModel())->delete( (int) $id);
       }catch (Exception $e)
       {
-        parent::LogError($e);
+       
         parent::getExceptionASJSON($e);
       }
+     }
+
+     public static function Extrato()
+     {
+
+     }
+
+     public static function EnviarPix()
+     {
+
+     }
+
+     public static function ReceberPix()
+     {
+
      }
 }

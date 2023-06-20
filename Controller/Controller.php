@@ -6,14 +6,18 @@ use Exception;
 abstract class Controller
 {
 
-    protected static function Logerror(Exception $e)
-    {
-      $f = fopen("erros.txt", "w");
-      fwrite($f, $e->getTraceAsString());
-    }
-     /**
-      * converte um dado para Json
-      */
+      protected static function isAuthenticated(Exception $e)
+      {
+        if(!isset($_SESSION['user']))
+        header("Location: /login");
+      }
+
+      public static function getJSONFromRequest()
+      {
+        return json_decode(file_get_contents("php://input"));
+        
+      }
+     
       protected static function getResponseAsJSON($data)
       {
         header("Acess-Control-Allow-Origin: *");

@@ -19,42 +19,28 @@ class CorrentistaController extends Controller
         $model->cpf = $json_obj->CPF;
         $model->senha = $json_obj->Senha;
 
-        $model->CorrentistaSalvar();
+        parent::getResponseAsJSON($model->CorrentistaSalvar());
       }
       catch (Exception $e) 
       {
-        parent::LogError($e);
         parent::getExceptionAsJSON($e);
       }
     } 
    
-    public static function CorrentistaEntrar() : void
+    public static function auth()
     {
-        $model = new CorrentistaModel();
+      $json_obj = parent::getJSONFromRequest();
 
-        $model->usuario = $_POST['usuario'];
-        $model->senha = $_POST['senha'];
+      //var_dump($json_obj);
 
-        $usuario_logado = $model->autenticar();
+      $model = new CorrentistaModel();
 
-        if ($usuario_logado !==null) {
-          $_SESSION['usuario_logado'] = $usuario_logado;
-
-          header("Location: /login?erro=true");
-        }
+      parent::getResponseAsJSON($model->auth($json_obj->Cpf, $json_obj->Senha));
     }
+    
 
     public static function deletar() : void
     {
-      try
-      {
-        $id = json_decode(file_get_contents('php://input'));
-
-        (new CorrentistaModel())->delete( (int) $id);
-      }catch (Exception $e)
-      {
-        parent::LogError($e);
-        parent::getExceptionASJSON($e);
-      }
+     
     }
 }

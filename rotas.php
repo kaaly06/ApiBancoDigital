@@ -17,19 +17,32 @@ switch ($url)
         CorrentistaController::CorrentistaSalvar();
     break;
 
-    case '/correntista/save':
-        CorrentistaController::CorrentistaEntrar();
+    case '/correntista/entrar':
+        CorrentistaController::auth();
     break;
 
     //rotas Conta
     case '/conta/save':
        ContaController::ContaSalvar();
     break;
+
+    case '/conta/extrato':
+        ContaController::Extrato();
+     break;
     
     //rotas Chave Pix enviar e receber
     
     //rotas Transação
-    case '/transacao/save':
-        TransacaoController::TransacaoSalvar();
+    case '/conta/pix/receber':
+        ContaController::ReceberPix();
+    break;
+
+    case '/conta/pix/enviar':
+    ContaController::EnviarPix();
+    break;
+
+    default: 
+    header('erro');
+    //http_response_code 403
     break;
 }

@@ -11,27 +11,30 @@ class CorrentistaModel extends Model
     public function CorrentistaSalvar() 
     {
         if($this->id == null)
-        (new CorrentistaDAO())->insert($this);
-        else
+        return (new CorrentistaDAO())->insert($this);
+    else
         (new CorrentistaDAO())->update($this);
-    }
-
-    public function autenticar()
-    {
-        $dao = new LoginDAO();
-
-        $dados_usuario_logado = $dao->selectByUsuarioAndSenha($this->usuario, $this->senha);
-
-        if(is_object($dados_usuario_logado))
-          return $dados_usuario_logado;
-        else 
-           null;
     }
     
     public function getAllRows()
     {
-        $this->rows = (new CorrentistaDAO())->select(); 
+        $this->rows = (new CorrentistaDAO())->select();
     }
+
+    public function getById(int $id)
+    {
+        $dao = new CorrentistaDAO();
+
+		$this->rows = $dao->selectById($id);
+    }
+
+    public function  auth($cpf, $senha)
+    {
+		
+        $dao = new CorrentistaDAO();
+
+		return $dao->getCorrentistaByCpfAndSenha($cpf, $senha);		
+	}
 
     public function delete()
     {
