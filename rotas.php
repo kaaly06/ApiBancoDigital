@@ -13,7 +13,7 @@ switch ($url)
      * Metódo: Post
      * http://10.0.2.2/correntista/salvar
      */
-    case '/correntista/save':
+    case '/correntista/salvar':
         CorrentistaController::CorrentistaSalvar();
     break;
 
