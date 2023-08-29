@@ -18,7 +18,7 @@ switch ($url)
     break;
 
     case '/correntista/entrar':
-        CorrentistaController::auth();
+        CorrentistaController::login();
     break;
 
     //rotas Conta

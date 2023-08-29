@@ -27,15 +27,22 @@ class CorrentistaController extends Controller
       }
     } 
    
-    public static function auth()
+    public static function login()
     {
-      $json_obj = parent::getJSONFromRequest();
+      try
+      {
+        $data = json_decode(file_get_contents('php://input'));
 
-      //var_dump($json_obj);
+        $model = new CorrentistaModel;
 
-      $model = new CorrentistaModel();
+        //parent::getResponseAsJSON($model->getByCpfAndSenha($data->Cpf, $data->senha));
 
-      parent::getResponseAsJSON($model->auth($json_obj->Cpf, $json_obj->Senha));
+      }
+      catch(Exception $e)
+      {
+        //parent::LogError($e);
+        parent::getExceptionAsJSON($e);
+      }
     }
     
 

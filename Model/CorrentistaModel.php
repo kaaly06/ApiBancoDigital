@@ -28,7 +28,7 @@ class CorrentistaModel extends Model
 		$this->rows = $dao->selectById($id);
     }
 
-    public function  auth($cpf, $senha)
+    public function  getByCpfAndSenha($cpf, $senha)
     {
 		
         $dao = new CorrentistaDAO();

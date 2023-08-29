@@ -12,6 +12,8 @@ abstract class Controller
         header("Location: /login");
       }
 
+     
+
       public static function getJSONFromRequest()
       {
         return json_decode(file_get_contents("php://input"));
