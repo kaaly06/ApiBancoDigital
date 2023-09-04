@@ -12,12 +12,15 @@ class CorrentistaDAO extends DAO
         parent::__construct();
     }
 
+    public function save(CorrentistaModel $m) : CorrentistaModel
+    {
+        return ($m->id == null) ? $this->insert($m) : $this->update($m);
+    }
+
+
     public function select()
     {
-        $sql = "SELECT c.*,
-        co.nome as nome_conta              
-                FROM conta c              
-                JOIN correntista co ON co.id = c.id_correntista";
+        $sql = "SELECT * FROM Correntista";
 
           $stmt = $this->conexao->prepare($sql);
           $stmt->execute();
@@ -26,9 +29,9 @@ class CorrentistaDAO extends DAO
         
     }
 
-    public function selectByCpfAndSenha($cpf, $senha)
+    public function getCorrentistaByCpfAndSenha($cpf, $senha)
     {
-        $sql = "SELECT nome, senha FROM correntista WHERE cpf=? AND senha= sha1(?)";
+        $sql = "SELECT FROM nome, senha FROM Correntista WHERE CPF = ? AND senha = sha1(?) ";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $cpf);
@@ -42,7 +45,7 @@ class CorrentistaDAO extends DAO
     
     public function insert(CorrentistaModel $m) : CorrentistaModel
     {
-        $sql = "INSERT INTO correntista (nome, CPF, senha) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO Correntista (nome, CPF, senha) VALUES (?, ?, ?)";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $m->nome);
@@ -57,7 +60,7 @@ class CorrentistaDAO extends DAO
 
     public function update(CorrentistaModel $m) : bool
     {
-        $sql = "UPDATE correntista SET usuario=?, cpf=? senha=? WHERE id=?";
+        $sql = "UPDATE Correntista SET nome=?, CPF=? senha= sha1(?) WHERE id=?";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $m->nome);
@@ -70,11 +73,7 @@ class CorrentistaDAO extends DAO
 
     public function selectById($id)
     {
-        $sql = "SELECT c.*,
-                       co.nome as nome_conta              
-                FROM conta c              
-                JOIN correntista co ON co.id = c.id
-                 WHERE id = ?";
+        $sql = "SELECT * FROM Correntista c WHERE id = ?";
 
          $stmt = $this->conexao->prepare($sql);
          $stmt->bindValue(1, $id);
@@ -87,7 +86,7 @@ class CorrentistaDAO extends DAO
 
     public function delete(int $id) : bool
     {
-        $sql = "DELETE FROM correntista WHERE id = ?";
+        $sql = "DELETE FROM Correntista WHERE id = ?";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $id);

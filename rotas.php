@@ -14,7 +14,7 @@ switch ($url)
      * http://10.0.2.2/correntista/salvar
      */
     case '/correntista/salvar':
-        CorrentistaController::CorrentistaSalvar();
+        CorrentistaController::save();
     break;
 
     case '/correntista/entrar':
@@ -23,7 +23,7 @@ switch ($url)
 
     //rotas Conta
     case '/conta/save':
-       ContaController::ContaSalvar();
+       ContaController::save();
     break;
 
     case '/conta/extrato':

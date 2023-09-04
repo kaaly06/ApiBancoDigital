@@ -3,11 +3,12 @@
 namespace ApiBancoDigital\Controller;
 
 use ApiBancoDigital\Model\CorrentistaModel;
+use ApiBancodigital\DAO;
 use Exception;
 
 class CorrentistaController extends Controller
 {
-    public static function CorrentistaSalvar() : void
+    public static function save() : void
     {
       try
       {
@@ -17,9 +18,10 @@ class CorrentistaController extends Controller
         $model->id = $json_obj->Id;
         $model->nome = $json_obj->nome;
         $model->cpf = $json_obj->CPF;
+        $model->data_nasc = $json_obj->data_nasc;
         $model->senha = $json_obj->senha;
 
-        parent::getResponseAsJSON($model->CorrentistaSalvar());
+        parent::getResponseAsJSON($model->save());
       }
       catch (Exception $e) 
       {
@@ -29,25 +31,27 @@ class CorrentistaController extends Controller
    
     public static function login()
     {
-      try
-      {
-        $data = json_decode(file_get_contents('php://input'));
+      $json_obj = parent::getJSONFromRequest();
 
-        $model = new CorrentistaModel;
+      $model = new CorrentistaModel();
 
-        //parent::getResponseAsJSON($model->getByCpfAndSenha($data->Cpf, $data->senha));
-
-      }
-      catch(Exception $e)
-      {
-        //parent::LogError($e);
-        parent::getExceptionAsJSON($e);
-      }
+      parent::getResponseAsJSON($model->login($json_obj->CPF, $json_obj->senha));
+      
     }
     
 
-    public static function deletar() : void
+    public static function delete()
     {
      
+    }
+
+    public static function update()
+    {
+
+    }
+
+    public static function select()
+    {
+
     }
 }
