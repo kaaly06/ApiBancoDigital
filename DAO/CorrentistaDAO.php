@@ -31,7 +31,7 @@ class CorrentistaDAO extends DAO
 
     public function getCorrentistaByCpfAndSenha($cpf, $senha)
     {
-        $sql = "SELECT FROM nome, senha FROM Correntista WHERE CPF = ? AND senha = sha1(?) ";
+        $sql = "SELECT * FROM Correntista WHERE CPF = ? AND senha = sha1(?) ";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $cpf);
@@ -45,12 +45,14 @@ class CorrentistaDAO extends DAO
     
     public function insert(CorrentistaModel $m) : CorrentistaModel
     {
-        $sql = "INSERT INTO Correntista (nome, CPF, senha) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO Correntista (nome, CPF, senha, data_nasc, email) VALUES (?, ?, ?, ?, ?)";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $m->nome);
         $stmt->bindValue(2, $m->cpf);
         $stmt->bindValue(3, $m->senha);
+        $stmt->bindValue(4, $m->data_nasc);
+        $stmt->bindValue(5, $m->email);
         $stmt->execute();
 
         $m->id = $this->conexao->lastInsertId(); //resgata a ultima inserção do banco
@@ -60,13 +62,15 @@ class CorrentistaDAO extends DAO
 
     public function update(CorrentistaModel $m) : bool
     {
-        $sql = "UPDATE Correntista SET nome=?, CPF=? senha= sha1(?) WHERE id=?";
+        $sql = "UPDATE Correntista SET nome=?, CPF=? , senha= sha1(?), data_nasc = ?, email = ?  WHERE id=?";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $m->nome);
         $stmt->bindValue(2, $m->cpf);
         $stmt->bindValue(3, $m->senha);
-        $stmt->bindValue(4, $m->id);
+        $stmt->bindValue(4, $m->data_nasc);
+        $stmt->bindValue(5, $m->email);
+        $stmt->bindValue(6, $m->id);
 
         return $stmt->execute();
     }

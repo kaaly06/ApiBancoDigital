@@ -7,7 +7,7 @@ use ApiBancoDigital\DAO\ContaDAO;
 
 class CorrentistaModel extends Model 
 {
-    public $id, $nome, $cpf, $senha, $data_nasc;
+    public $id, $nome, $cpf, $senha, $data_nasc, $email;
     public $rows_contas;
 
     public function save() : ? CorrentistaModel
