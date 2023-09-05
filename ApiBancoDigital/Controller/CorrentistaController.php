@@ -3,7 +3,6 @@
 namespace ApiBancoDigital\Controller;
 
 use ApiBancoDigital\Model\CorrentistaModel;
-use ApiBancodigital\DAO;
 use Exception;
 
 class CorrentistaController extends Controller

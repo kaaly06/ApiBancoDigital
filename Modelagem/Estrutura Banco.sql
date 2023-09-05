@@ -15,73 +15,80 @@ CREATE SCHEMA IF NOT EXISTS `db_bancodigital` DEFAULT CHARACTER SET utf8 ;
 USE `db_bancodigital` ;
 
 -- -----------------------------------------------------
--- Table `db_bancodigital`.`Correntista`
+-- Table `db_bancodigital`.`correntista`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_bancodigital`.`Correntista` (
+CREATE TABLE IF NOT EXISTS `db_bancodigital`.`correntista` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(150) NOT NULL,
-  `CPF` CHAR(13) NOT NULL,
-  `senha` INT NOT NULL,
+  `CPF` CHAR(11) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
   `data_nasc` DATE NOT NULL,
   `email` VARCHAR(150) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `db_bancodigital`.`Conta`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_bancodigital`.`Conta` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `saldo` INT NOT NULL,
-  `tipo` VARCHAR(45) NOT NULL,
-  `limite` VARCHAR(16) NOT NULL,
-  `id_Correntista` INT NOT NULL,
-  PRIMARY KEY (`id`, `id_Correntista`),
-  INDEX `fk_Conta_Correntista1_idx` (`id_Correntista` ASC) VISIBLE,
-  CONSTRAINT `fk_Conta_Correntista1`
-    FOREIGN KEY (`id_Correntista`)
-    REFERENCES `db_bancodigital`.`Correntista` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `db_bancodigital`.`Chave_Pix`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_bancodigital`.`Chave_Pix` (
-  `id` INT NOT NULL,
-  `Tipo` VARCHAR(45) NOT NULL,
-  `Chave` VARCHAR(150) NOT NULL,
-  `Conta_id` INT NOT NULL,
-  PRIMARY KEY (`id`, `Conta_id`),
-  INDEX `fk_Chave_Pix_Conta_idx` (`Conta_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Chave_Pix_Conta`
-    FOREIGN KEY (`Conta_id`)
-    REFERENCES `db_bancodigital`.`Conta` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `db_bancodigital`.`Transacao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `db_bancodigital`.`Transacao` (
-  `id` INT NOT NULL,
-  `valor` VARCHAR(45) NULL,
-  `id_Conta` INT NOT NULL,
-  `id_Correntista` INT NOT NULL,
-  `id_ContaRecebeu` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Transacao_Conta1_idx` (`id_Conta` ASC, `id_Correntista` ASC) VISIBLE,
-  CONSTRAINT `fk_Transacao_Conta1`
-    FOREIGN KEY (`id_Conta` , `id_Correntista`)
-    REFERENCES `db_bancodigital`.`Conta` (`id` , `id_Correntista`)
+  UNIQUE INDEX `CPF_UNIQUE` (`CPF` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `db_bancodigital`.`conta`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `db_bancodigital`.`conta` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `saldo` DOUBLE NOT NULL,
+  `tipo` VARCHAR(45) NOT NULL,
+  `limite` DOUBLE NOT NULL,
+  `id_Correntista` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Conta_Correntista1_idx` (`id_Correntista` ASC) VISIBLE,
+  CONSTRAINT `fk_Conta_Correntista`
+    FOREIGN KEY (`id_Correntista`)
+    REFERENCES `db_bancodigital`.`correntista` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `db_bancodigital`.`chave_pix`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `db_bancodigital`.`chave_pix` (
+  `id` INT NOT NULL,
+  `tipo` VARCHAR(45) NOT NULL,
+  `chave` VARCHAR(150) NOT NULL,
+  `id_Conta` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Chave_Pix_Conta_idx` (`id_Conta` ASC) VISIBLE,
+  CONSTRAINT `fk_Chave_Pix_Conta`
+    FOREIGN KEY (`id_Conta`)
+    REFERENCES `db_bancodigital`.`conta` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `db_bancodigital`.`transacao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `db_bancodigital`.`transacao` (
+  `id` INT NOT NULL,
+  `valor` DOUBLE NOT NULL,
+  `data_hora` DATETIME NOT NULL,
+  `id_Conta_Enviou` INT NOT NULL,
+  `id_Conta_Recebeu` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Transacao_Conta1_idx` (`id_Conta_Recebeu` ASC) VISIBLE,
+  INDEX `fk_id_conta_enviou_idx` (`id_Conta_Enviou` ASC) VISIBLE,
+  CONSTRAINT `fk_id_conta_recebeu`
+    FOREIGN KEY (`id_Conta_Recebeu`)
+    REFERENCES `db_bancodigital`.`conta` (`id`),
+  CONSTRAINT `fk_id_conta_enviou`
+    FOREIGN KEY (`id_Conta_Enviou`)
+    REFERENCES `db_bancodigital`.`conta` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
