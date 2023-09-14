@@ -48,7 +48,7 @@ class CorrentistaDAO extends DAO
     
     public function insert(CorrentistaModel $m) : CorrentistaModel
     {
-        $sql = "INSERT INTO Correntista (nome, CPF, senha, data_nasc, email) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Correntista (nome, CPF, senha, data_nasc, email) VALUES (?, ?, sha1(?), ?, ?)";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(1, $m->nome);
