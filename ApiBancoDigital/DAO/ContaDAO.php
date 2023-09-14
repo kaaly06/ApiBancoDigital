@@ -7,73 +7,84 @@ use \PDO;
 
 class ContaDAO extends DAO
 {
-  public function __construct()
-  {
-     parent::__construct();
-  }
-  
-  public function select() : array
-  {
-     $sql = "SELECT * FROM Conta";
+   public function __construct()
+   {
+      parent::__construct();
+   }
 
-     $stmt = $this->conexao->prepare($sql);
-     $stmt->execute();
+   public function select(): array
+   {
+      $sql = "SELECT * FROM Conta";
 
-     return $stmt->fetchAll(DAO::FETCH_CLASS, "ApiBancoDigital\Model\ContaModel");
-  }
+      $stmt = $this->conexao->prepare($sql);
+      $stmt->execute();
 
-  public function insert(ContaModel $model)
-  {
-     $sql = "INSERT INTO Conta (saldo, tipo, limite, id_Correntista) VALUES (?, ?, ?, ?)";
+      return $stmt->fetchAll(DAO::FETCH_CLASS, "ApiBancoDigital\Model\ContaModel");
+   }
 
-     $stmt = $this->conexao->prepare($sql);
-     $stmt->bindValue(1, $model->saldo);
-     $stmt->bindValue(2, $model->tipo);
-     $stmt->bindValue(3, $model->limite);
-     $stmt->bindValue(4, $model->id_Correntista);
-     $stmt->execute();
+   public function insert(ContaModel $model)
+   {
+      $sql = "INSERT INTO Conta (saldo, tipo, limite, id_Correntista) VALUES (?, ?, ?, ?)";
 
-     return $this->conexao->lastInsertId();
+      $stmt = $this->conexao->prepare($sql);
+      $stmt->bindValue(1, $model->saldo);
+      $stmt->bindValue(2, $model->tipo);
+      $stmt->bindValue(3, $model->limite);
+      $stmt->bindValue(4, $model->id_Correntista);
+      $stmt->execute();
 
-  }
+      return $this->conexao->lastInsertId();
+   }
 
-  public function update(ContaModel $model)
-  {   
-    $sql = "UPDATE Conta SET saldo=?, tipo=? limite=?, id_Correntista WHERE id=?";
+   public function update(ContaModel $model)
+   {
+      $sql = "UPDATE Conta SET saldo=?, tipo=? limite=?, id_Correntista WHERE id=?";
 
-    $stmt = $this->conexao->prepare($sql);
-    $stmt->bindValue(1, $model->saldo);
-    $stmt->bindValue(2, $model->tipo);
-    $stmt->bindValue(3, $model->limite);
-    $stmt->bindValue(4, $model->id_Correntista);
+      $stmt = $this->conexao->prepare($sql);
+      $stmt->bindValue(1, $model->saldo);
+      $stmt->bindValue(2, $model->tipo);
+      $stmt->bindValue(3, $model->limite);
+      $stmt->bindValue(4, $model->id_Correntista);
 
-    return $stmt->execute();
+      return $stmt->execute();
+   }
 
-  }
-
-  public function selectById($id)
-    {
-        $sql = "SELECT c.*,
+   public function selectById($id)
+   {
+      $sql = "SELECT c.*,
                         co.nome as nome_conta              
                 FROM Conta c              
                 JOIN Correntista co ON co.id = c.id_Correntista
                 WHERE id = ?
                 ";
 
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->bindValue(1, $id);
+      $stmt = $this->conexao->prepare($sql);
+      $stmt->bindValue(1, $id);
 
-        $stmt->execute();
+      $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_CLASS);
-    }
+      return $stmt->fetchAll(PDO::FETCH_CLASS);
+   }
 
-  public function delete(int $id) : bool
-  {
-     $sql = "DELETE FROM Conta WHERE id = ?";
 
-     $stmt = $this->conexao->prepare($sql);
-     $stmt->bindValue(1, $id);
-     return $stmt->execute();
-  }
+   public function selectByIdCorrentista($id_correntista)
+   {
+      $sql = "SELECT * FROM Conta  WHERE id_Correntista = ?";
+
+      $stmt = $this->conexao->prepare($sql);
+      $stmt->bindValue(1, $id_correntista);
+
+      $stmt->execute();
+
+      return $stmt->fetchAll(DAO::FETCH_CLASS, "ApiBancoDigital\Model\ContaModel");
+   }
+
+   public function delete(int $id): bool
+   {
+      $sql = "DELETE FROM Conta WHERE id = ?";
+
+      $stmt = $this->conexao->prepare($sql);
+      $stmt->bindValue(1, $id);
+      return $stmt->execute();
+   }
 }
